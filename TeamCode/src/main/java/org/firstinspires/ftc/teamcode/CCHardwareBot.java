@@ -37,6 +37,21 @@ public abstract class CCHardwareBot
     protected static final double SPEED_COEFF_FAST = 0.8;
     protected static final double SPEED_COEFF_TURN = 0.7;
     protected static final double GAME_STICK_DEAD_ZONE = 0.1;
+
+    protected final double INTAKE_GRAB_POS = 0.0;
+    protected final double INTAKE_RELEASE_POS = 0.0;
+    protected final double ROTATE_UP_POS = 0.0;
+    protected final double ROTATE_DOWN_POS = 0.0;
+
+    //private static final String INTAKE_SERVO_LEFT_NAME = "isL";
+    //private static final String INTAKE_SERVO_RIGHT_NAME = "isR";
+
+  //  private static final String INTAKE_MOTOR_NAME = "inM";
+    private static final String LIFT_MOTOR_NAME = "llM";
+
+    private static final String INTAKE_SERVO_NAME = "inS";
+
+    private static final String INTAKE_ROTATE_SERVO_NAME = "irS";
 /*
     // DC Motors
     private static final String INTAKE_ARM_MOTOR_NAME   = "inA";
@@ -77,17 +92,15 @@ public abstract class CCHardwareBot
     LinearOpMode opMode; // current opMode
 
     // DC motors
-    protected DcMotor intakeArmMotor;
-    protected DcMotor intakeMotor;
-    protected DcMotor dumperSlideMotor;
-    protected DcMotor hangMotor;
+    protected DcMotor liftMotor;
+   // protected DcMotor intakeMotor;
+
 
     // Servos
-    protected Servo   dumperRotateServo;
-    protected Servo   hangHookServo;
-    protected Servo   markerServo;
-    protected Servo   samplerServo;
-    protected Servo   distanceRotateServo;
+    //protected CRServo   intakeLeft;
+   // protected CRServo   intakeRight;
+    protected Servo inRotateServo;
+    protected  Servo intakeServo;
 
     // Sensors
     protected BNO055IMU imu;
@@ -135,11 +148,44 @@ public abstract class CCHardwareBot
         if (intakeArmMotor == null) {
             return BoKHardwareStatus.BOK_HARDWARE_FAILURE;
         }
-
+        */
+/*
         intakeMotor = opMode.hardwareMap.dcMotor.get(INTAKE_MOTOR_NAME);
         if (intakeMotor == null) {
             return BoKHardwareStatus.BOK_HARDWARE_FAILURE;
         }
+
+ */
+        inRotateServo = opMode.hardwareMap.servo.get(INTAKE_ROTATE_SERVO_NAME);
+        if(inRotateServo == null) {
+            return BoKHardwareStatus.BOK_HARDWARE_FAILURE;
+        }
+        intakeServo = opMode.hardwareMap.servo.get(INTAKE_SERVO_NAME);
+        if(intakeServo == null){
+            return BoKHardwareStatus.BOK_HARDWARE_FAILURE;
+        }
+        liftMotor = opMode.hardwareMap.dcMotor.get(LIFT_MOTOR_NAME);
+        if(liftMotor == null){
+            return BoKHardwareStatus.BOK_HARDWARE_FAILURE;
+        }
+        /*
+        intakeLeft = opMode.hardwareMap.crservo.get(INTAKE_SERVO_LEFT_NAME);
+        if(intakeLeft == null){
+            return BoKHardwareStatus.BOK_HARDWARE_FAILURE;
+        }
+        intakeRight = opMode.hardwareMap.crservo.get(INTAKE_SERVO_RIGHT_NAME);
+            if (intakeRight == null){
+                return BoKHardwareStatus.BOK_HARDWARE_FAILURE;
+            }
+
+         */
+
+           // intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        /*
 
         dumperSlideMotor = opMode.hardwareMap.dcMotor.get(DUMPER_SLIDE_MOTOR_NAME);
         if (dumperSlideMotor == null) {

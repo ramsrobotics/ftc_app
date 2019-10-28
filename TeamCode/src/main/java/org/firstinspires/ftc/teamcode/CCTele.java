@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 //import com.sun.tools.javac.comp.Todo;
@@ -87,20 +88,38 @@ public class CCTele
             }
 
             // GAMEPAD 2 CONTROLS
-            // Left Joystick:          Intake sweeper
-            // In end game, left joystick drives the hanging motor
-            // X:                      End Game
-            // B:                      Revert from end game
-            // Y                       Intake arm up
-            // A                       Intake arm down
+            // Left Joystick:          Slide Up and Down and move out and back
+
+           //
+
             // Right Joystick:         Intake sweeper motor
-            // Dpad Up:                Take the dumper lift up
-            // Dpad Down:              Bring the dumper lift down
-            // Left Bumper:            Dump the minerals slowly
-            // Right Bumper:           Bring the dumper back up
-            // In end game
-            // Dpad Up:                Raise the hanging hook
-            // Dpad Down:              Lower the hanging hook
+
+
+
+
+
+
+
+            robot.liftMotor.setPower(-opMode.gamepad2.left_stick_y);
+
+
+            if(opMode.gamepad2.a){
+                robot.intakeServo.setPosition(robot.INTAKE_GRAB_POS);
+            }
+            if(opMode.gamepad2.b){
+                robot.intakeServo.setPosition(robot.INTAKE_RELEASE_POS);
+            }
+
+            if(opMode.gamepad2.dpad_up){
+                robot.inRotateServo.setPosition(robot.ROTATE_UP_POS);
+            }
+            if(opMode.gamepad2.dpad_down){
+                robot.inRotateServo.setPosition(robot.ROTATE_DOWN_POS);
+            }
+
+
+
+
 /*
             if (opMode.gamepad2.x && !end_game) {
                 end_game = true;
@@ -298,7 +317,7 @@ public class CCTele
 
  */
 
-
+        opMode.telemetry.update();
         }
         return BoKTeleStatus.BOK_TELE_SUCCESS;
     }
@@ -314,9 +333,9 @@ public class CCTele
          */
         // NOTE: the left joystick goes negative when pushed upwards
         double gamePad2LeftStickY = -opMode.gamepad2.left_stick_y*INTAKE_MOTOR_CAP_SPEED;
-        robot.intakeMotor.setPower(gamePad2LeftStickY);
+        //robot.intakeMotor.setPower(gamePad2LeftStickY);
     }
-
+/*
     private void resetIntakeArmVars(){
         lastErr = 0; sumErr = 0; dErrDT = 0; pid = 0; lastTime = 0;
         intakeArmRunTime.reset();
@@ -324,4 +343,6 @@ public class CCTele
         lastPos = inPos;
         robot.intakeArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
+
+ */
 }

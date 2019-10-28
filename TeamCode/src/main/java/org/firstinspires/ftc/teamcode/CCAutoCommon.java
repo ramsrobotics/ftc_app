@@ -1117,19 +1117,19 @@ public abstract class CCAutoCommon implements CCAuto
     {
         double vEnc, err, sumErr = 0, dErrDT, dT, pid, powerApp,
                 Kp = 0.7, Ki = 0.525, Kd = 0.2, time, lastTime = 0, lastErr = 0;
-        int inPos = robot.intakeArmMotor.getCurrentPosition();
+        int inPos = 0;//robot.intakeArmMotor.getCurrentPosition();
         int lastPos = inPos;
 
         //Runtime
         runTime.reset();
         //String logString = "pos,lPos,dTime,vEnc,err,sumErr,lastErr,dErrDT,pid,speed\n";
-        robot.intakeArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.intakeArmMotor.setPower(power);
+      //  robot.intakeArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //robot.intakeArmMotor.setPower(power);
 
         while (opMode.opModeIsActive() && (Math.abs(inPos - endPos) > 10) &&
                 (runTime.seconds() < waitForSec)) {
 
-            inPos = robot.intakeArmMotor.getCurrentPosition();
+          //  inPos = robot.intakeArmMotor.getCurrentPosition();
             time = runTime.milliseconds();
             dT = time - lastTime;
             vEnc = (inPos - lastPos)/dT;
@@ -1144,7 +1144,7 @@ public abstract class CCAutoCommon implements CCAuto
             else {
                 powerApp = Range.clip(powerApp, 0.0, 1.0);
             }
-            robot.intakeArmMotor.setPower(powerApp);
+         //   robot.intakeArmMotor.setPower(powerApp);
             lastErr = err;
             lastTime = time;
             lastPos = inPos;
@@ -1154,7 +1154,7 @@ public abstract class CCAutoCommon implements CCAuto
         //File file = AppUtil.getInstance().getSettingsFile("BoKMotorData.csv");
         //ReadWriteFile.writeFile(file,
         //       logString);
-        robot.intakeArmMotor.setPower(0);
+        //robot.intakeArmMotor.setPower(0);
         if (runTime.seconds() > waitForSec) {
             Log.v("BOK", "moveIntakeArmPID timed out!");
         }
@@ -1167,11 +1167,11 @@ public abstract class CCAutoCommon implements CCAuto
     protected void dropIntakeArmAndExtend() {
         moveIntakeArmPID(1000/*enc count*/, 0.5/*power*/, 0.5/*vTarget*/, 3/*seconds*/);
         // Complete the final position of the intake arm
-        robot.intakeArmMotor.setTargetPosition(1100);
-        robot.intakeArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.intakeArmMotor.setPower(0.5);
+        //robot.intakeArmMotor.setTargetPosition(1100);
+        //robot.intakeArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //robot.intakeArmMotor.setPower(0.5);
         moveRamp(0.35/*power*/, 13 /*inches*/, false/*back*/, 4/*seconds*/);
-        robot.intakeArmMotor.setPower(0);
+        //robot.intakeArmMotor.setPower(0);
     }
 
     /*
@@ -1191,15 +1191,15 @@ public abstract class CCAutoCommon implements CCAuto
 
         // Step 2: Start motor for bringing the robot down (hanging lift)
       //  robot.hangMotor.setTargetPosition(robot.HANG_LIFT_HIGH_POS);
-        robot.hangMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.hangMotor.setPower(HANGLIFT_POWER);
+      //  robot.hangMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //robot.hangMotor.setPower(HANGLIFT_POWER);
 
         runTime.reset();
-        while (opMode.opModeIsActive() && robot.hangMotor.isBusy() && (runTime.seconds() < 5)) {
+        //while (opMode.opModeIsActive() && robot.hangMotor.isBusy() && (runTime.seconds() < 5)) {
             // Do nothing while the robot is moving down
             // Log.v("BOK", "hang enc: " + robot.hangMotor.getCurrentPosition());
-        }
-        robot.hangMotor.setPower(0);
+        //}
+        //robot.hangMotor.setPower(0);
         if (runTime.seconds() >= 5) {
             Log.v("BOK", "hang lift timed out");
         }
@@ -1212,13 +1212,13 @@ public abstract class CCAutoCommon implements CCAuto
 
         // Move the hang lift down a bit and then move forward a bit
         //robot.hangMotor.setTargetPosition(robot.HANG_LIFT_HIGH_POS-150);
-        robot.hangMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.hangMotor.setPower(-HANGLIFT_POWER);
-        while (opMode.opModeIsActive() && robot.hangMotor.isBusy()) {
+        //robot.hangMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //robot.hangMotor.setPower(-HANGLIFT_POWER);
+        //while (opMode.opModeIsActive() && robot.hangMotor.isBusy()) {
             // Do nothing while the lift is moving down
             // Log.v("BOK", "hang enc: " + robot.hangMotor.getCurrentPosition());
-        }
-        robot.hangMotor.setPower(0);
+        //}
+        //robot.hangMotor.setPower(0);
         moveRamp(MOVE_POWER_LOW, 2/*inches*/, true/*forward*/, 2/*seconds*/);
         //Log.v("BOK", "Move completed in " +
           //    String.format("%.2f", BoKAuto.runTimeOpMode.seconds()));

@@ -4,11 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
- * Created by Krishna Saxena on 10/3/2017.
+
  * Registers the opMode with the driver station.
  * It uses CCMecanumDT and CCTele objects
  */
-@TeleOp(name="BOK TELEOP", group="CCTele")
+@TeleOp(name="CC TELEOP", group="CCTele")
 public class CCTeleOpMode extends LinearOpMode
 {
     @Override
@@ -18,8 +18,7 @@ public class CCTeleOpMode extends LinearOpMode
         CCHardwareBot robot = new CCMecanumDT();
         CCTele opMode = null;
 
-        /*
-         * Initialize the drive train and the robot subsystems variables.
+        /*         * Initialize the drive train and the robot subsystems variables.
          * The initHardware() method of the hardware class does all the work here
          */
         if (CCHardwareBot.BoKHardwareStatus.BOK_HARDWARE_FAILURE == robot.initHardware(this)) {
